@@ -1,0 +1,6 @@
+br\com\suco\doce\mel\model\NotaFiscal.class
+br\com\suco\doce\mel\model\Produto.class
+br\com\suco\doce\mel\model\Test.class
+br\com\suco\doce\mel\model\Vendedor.class
+br\com\suco\doce\mel\model\Cliente.class
+br\com\suco\doce\mel\model\ItemNotaFiscal.class
