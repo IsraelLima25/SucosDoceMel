@@ -1,13 +1,18 @@
 package br.com.suco.doce.mel.model;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "tabela_de_clientes")
@@ -39,27 +44,147 @@ public class Cliente implements Serializable {
 
 	@Column(name = "CEP", length = 8)
 	private String cep;
-	
-	@Column(name="DATA_DE_NASCIMENTO")
-	private LocalDate dataNascimento;
-	
-	@Column(name="IDADE", length = 6)
+
+	@Column(name = "DATA_DE_NASCIMENTO")
+	@Temporal(TemporalType.DATE)
+	private Calendar dataNascimento;
+
+	@Column(name = "IDADE", length = 6)
 	private Integer idade;
-	
+
 	@Column(name = "SEXO", length = 1)
 	private String sexo;
-	
+
 	@Column(name = "LIMITE_DE_CREDITO")
-	private DecimalFormat limiteCredito;
-	
+	private Float limiteCredito;
+
 	@Column(name = "VOLUME_DE_COMPRA")
 	private Float volumeCompra;
-	
+
 	@Column(name = "PRIMEIRA_COMPRA", length = 1)
-	private boolean isPrimeiraCompra;
+	private byte isPrimeiraCompra;
+
+	@OneToMany(mappedBy = "cliente")
+	List<NotaFiscal> notasFiscais = new ArrayList<>();
 
 	public Cliente() {
 
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getEndereco1() {
+		return endereco1;
+	}
+
+	public String getEndereco2() {
+		return endereco2;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public Calendar getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public Integer getIdade() {
+		return idade;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public Float getLimiteCredito() {
+		return limiteCredito;
+	}
+
+	public Float getVolumeCompra() {
+		return volumeCompra;
+	}
+
+	public List<NotaFiscal> getNotasFiscais() {
+		return Collections.unmodifiableList(notasFiscais);
+	}
+
+	public byte isPrimeiraCompra() {
+		return isPrimeiraCompra;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setEndereco1(String endereco1) {
+		this.endereco1 = endereco1;
+	}
+
+	public void setEndereco2(String endereco2) {
+		this.endereco2 = endereco2;
+	}
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public void setDataNascimento(Calendar dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public void setIdade(Integer idade) {
+		this.idade = idade;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+	public void setLimiteCredito(Float limiteCredito) {
+		this.limiteCredito = limiteCredito;
+	}
+
+	public void setVolumeCompra(Float volumeCompra) {
+		this.volumeCompra = volumeCompra;
+	}
+
+	public void setPrimeiraCompra(byte isPrimeiraCompra) {
+		this.isPrimeiraCompra = isPrimeiraCompra;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 
 }
