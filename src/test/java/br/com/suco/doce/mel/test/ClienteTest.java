@@ -25,7 +25,7 @@ public class ClienteTest {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("ssdm");
 		this.em = emf.createEntityManager();
 
-		// Instancia Cliente para Test
+		// Instancia Cliente
 		this.cliente = new Cliente();
 		this.cliente.setCpf("04918064436");
 		this.cliente.setBairro("Pirajá");

@@ -32,7 +32,7 @@ public class Vendedor implements Serializable {
 	private Calendar dataAdmissao;
 
 	@Column(name = "DE_FERIAS")
-	private boolean isFerias;
+	private byte isFerias;
 
 	@Column(name = "BAIRRO", length = 50)
 	private String bairro;
@@ -60,7 +60,7 @@ public class Vendedor implements Serializable {
 		return dataAdmissao;
 	}
 
-	public boolean isFerias() {
+	public byte isFerias() {
 		return isFerias;
 	}
 
@@ -88,7 +88,7 @@ public class Vendedor implements Serializable {
 		this.dataAdmissao = dataAdmissao;
 	}
 
-	public void setFerias(boolean isFerias) {
+	public void setFerias(byte isFerias) {
 		this.isFerias = isFerias;
 	}
 

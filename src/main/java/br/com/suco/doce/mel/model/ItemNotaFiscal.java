@@ -25,8 +25,9 @@ public class ItemNotaFiscal implements Serializable {
 	public ItemNotaFiscal() {
 	}
 
-	public ItemNotaFiscal(NotaFiscal notaFiscal, Integer quantidade, Float preco) {
-
+	public ItemNotaFiscal(Produto produto, NotaFiscal notaFiscal, Integer quantidade, Float preco) {
+		this.key.setProduto(produto);
+		this.key.setNotaFiscal(notaFiscal);
 		this.quantidade = quantidade;
 		this.preco = preco;
 	}
