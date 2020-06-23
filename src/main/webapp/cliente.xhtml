@@ -1,0 +1,210 @@
+<ui:composition
+			   	template="_templateSucoDoceMel.xhtml"
+			    xmlns=" http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:stella="http://stella.caelum.com.br/faces2">
+                
+            <ui:define name="conteudo">
+            
+            		<h:form>            		            		
+					    <p:growl id="msgGlobal" showDetail="true" showSummary="false" sticky="false" closable="true" />					
+            			<p:fieldset legend = "Manutenção de Clientes">
+            			<p:separator />
+            				<h:panelGrid columns="3" cellspacing="1" cellpadding="5" >
+            				            				
+            					<h:outputLabel value="Cpf:*" for="cpf" />
+            					<h:outputLabel value="Nome:*" for="nome" />        
+            					<h:outputLabel value="Endereço:*" for="endereco" />
+            					
+            					<p:inputMask id="cpf" style="width:215px;"
+            					value="#{clienteBean.cliente.cpf}" 
+            					maxlength="11" mask="999.999.999-99">
+            						<f:validator validatorId="ValidatorCpf" /> 
+            						<f:ajax event="blur" render="@this msgGlobal" execute="@this" />
+            					</p:inputMask>
+            					           					
+            					<p:inputText id="nome" required="true" 
+            					requiredMessage="Campo nome obrigatório" 
+            					validatorMessage="Formato campo Nome inválido" 
+            					value="#{clienteBean.cliente.nome}" style="width:570px;">
+            						<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            						<f:validateRegex pattern="[A-Za-zÀ-ú ]*"></f:validateRegex>            						
+            					</p:inputText>
+            					            					
+            					<p:inputText id="endereco" required="true" 
+            					requiredMessage="Campo Endereco Obrigatório" 
+            					validatorMessage="Formato Campo Endereco inválido"
+            					value="#{clienteBean.cliente.endereco1}" 
+            					style="width:580px;">
+            						<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            						<f:validateRegex pattern="[0-9A-Za-zÀ-ú ]*" />
+            					</p:inputText>
+            					
+            				</h:panelGrid>
+            				
+            				<h:panelGrid columns="6" cellspacing="1" cellpadding="5">
+            				
+            					<h:outputLabel value="Estado:*" for="estado" />  
+            					<h:outputLabel value="Cidade:*" for="cidade" />             				
+            					<h:outputLabel value="Bairro:*" for="bairro" />
+            					<h:outputLabel value="Cep:*" for="cep" />  
+            					<h:outputLabel value="Data Nascimento:*" for="dataNascimento" />
+            					<h:outputLabel value="Idade:" for="idade" />
+            					
+            					<p:selectOneMenu required="true" requiredMessage="Selecione um estado" id="estado" value="#{clienteBean.cliente.estado}" style="width:200px">
+						            <f:selectItem itemLabel="Selecione" itemValue="" />
+						            <f:selectItem itemLabel="AC" itemValue="AC" />
+						            <f:selectItem itemLabel="AL" itemValue="AL" />
+						            <f:selectItem itemLabel="AP" itemValue="AP" />
+						            <f:selectItem itemLabel="AM" itemValue="AM" />	
+						            <f:selectItem itemLabel="BA" itemValue="BA" />
+						            <f:selectItem itemLabel="CE" itemValue="CE" />	
+						            <f:selectItem itemLabel="DF" itemValue="DF" />
+						            <f:selectItem itemLabel="ES" itemValue="ES" />	
+						            <f:selectItem itemLabel="GO" itemValue="GO" />
+						            <f:selectItem itemLabel="MA" itemValue="MA" />	
+						            <f:selectItem itemLabel="MT" itemValue="MT" />
+						            <f:selectItem itemLabel="MS" itemValue="MS" />	
+						            <f:selectItem itemLabel="MG" itemValue="MG" />
+						            <f:selectItem itemLabel="PA" itemValue="PA" />	
+						            <f:selectItem itemLabel="PB" itemValue="PB" />
+						            <f:selectItem itemLabel="PR" itemValue="PR" />	
+						            <f:selectItem itemLabel="PE" itemValue="PE" />
+						            <f:selectItem itemLabel="PI" itemValue="PI" />	
+						            <f:selectItem itemLabel="RJ" itemValue="RJ" />
+						            <f:selectItem itemLabel="RN" itemValue="RN" />	
+						            <f:selectItem itemLabel="RS" itemValue="RS" />
+						            <f:selectItem itemLabel="RO" itemValue="RO" />	
+						            <f:selectItem itemLabel="RR" itemValue="RR" />
+						            <f:selectItem itemLabel="SC" itemValue="SC" />	
+						            <f:selectItem itemLabel="SP" itemValue="SP" />
+						            <f:selectItem itemLabel="SE" itemValue="sE" />
+						            <f:selectItem itemLabel="TO" itemValue="TO" />
+						            <f:ajax event="valueChange" execute="@this" render="@this msgGlobal" />
+        						</p:selectOneMenu>
+        						
+        						<p:inputText id="cidade" required="true" 
+        						requiredMessage="Cidade Obrigatório"
+        						validatorMessage="Formato campo Cidade inválido" 
+        						value="#{clienteBean.cliente.cidade}">
+        						<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+								<f:validateRegex pattern="[A-Za-zÀ-ú ]*" />        						
+        						</p:inputText>
+        						
+            					<p:inputText id="bairro" required="true" 
+            					requiredMessage="Bairro Obrigatório" 
+            					value="#{clienteBean.cliente.bairro}">
+            					<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            					<f:validateRegex pattern="[A-Za-zÀ-ú ]*" /> 
+            					</p:inputText> 
+            					
+            					<p:inputMask id="cep" required="true" 
+            					requiredMessage="Cep Obrigatório" 
+            					value="#{clienteBean.cliente.cep}"
+            					maxlength="8" 
+            					mask="99999-999">
+            					<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            					</p:inputMask>
+            					
+            					<p:calendar id="dataNascimento" required="true" requiredMessage="Data Nascimento Obrigatório"
+            					validatorMessage="Campo Data Nascimento Formato inválido" pattern="dd/MM/yyyy"
+            					value="#{clienteBean.dataNascimentoCliente}" 
+            					timeZone="America/Sao_Paulo" mask="true">
+            						<p:ajax event="dateSelect" process="@this" update="idade" listener="#{clienteBean.calcularIdade}" />
+            						<p:ajax event="keyup" process="@this" update="idade" listener="#{clienteBean.calcularIdade}" />
+            						<p:ajax event="blur" process="@this" update="dataNascimento msgGlobal" />
+            					</p:calendar>
+            					
+            					<p:inputText id="idade" value="#{clienteBean.cliente.idade}" disabled="true" style="width:200px;"  />
+            					          				
+            				</h:panelGrid>
+            				
+            				 <h:panelGrid columns="5" cellspacing="1" cellpadding="5">
+            				             				
+            					<h:outputLabel value="Sexo:*" for="sexo" />
+            					<h:outputLabel value="Limite Crédito:*" for="limiteCredito" />        
+            					<h:outputLabel value="Volume Compra:*" for="volumeCompra" />
+            					<h:outputLabel value="Primeira Compra:*" for="primeiraCompra" />
+            					<h:outputLabel /> 
+            					
+            					<p:selectOneMenu required="true" requiredMessage="Sexo Obrigatório" id="sexo" value="#{clienteBean.cliente.sexo}" style="width:200px">
+						            <f:selectItem itemLabel="Selecione" itemValue="" />
+						            <f:selectItem itemLabel="Feminino" itemValue="F" />
+						            <f:selectItem itemLabel="Masculino" itemValue="M" />
+						            <f:ajax event="valueChange" execute="@this" render="@this msgGlobal" />			           
+        						</p:selectOneMenu>  
+        						  
+            					<p:inputNumber id="limiteCredito" placeholder="R$" 
+            					decimalPlaces="2" symbol="R$"  required="true" 
+            					requiredMessage="Limite Crédito Obrigatório" 
+            					value="#{clienteBean.cliente.limiteCredito}">
+            					<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            					</p:inputNumber>
+            					
+            					<p:inputNumber id="volumeCompra" required="true" 
+            					requiredMessage="Volume Compra Obrigatório"
+            					value="#{clienteBean.cliente.volumeCompra}">
+            					<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            					</p:inputNumber>
+            					
+            					<p:selectOneMenu id="primeiraCompra" required="true"
+            					requiredMessage="Primeira Compra Obrigatório"
+            					value="#{clienteBean.cliente.primeiraCompra}" style="width:200px">            					
+						            <f:selectItem itemLabel="Selecione" itemValue="" />
+						            <f:selectItem itemLabel="Não" itemValue="0" />
+						            <f:selectItem itemLabel="Sim" itemValue="1" />
+						            <f:ajax event="valueChange" execute="@this" render="@this msgGlobal" />			           
+        						</p:selectOneMenu> 
+        						
+            				</h:panelGrid>
+            				
+	            				<h:outputLabel style="color:red; font-size:15px;" 
+	            				value="Os campos marcados com (*) são de preenchimento obrigatório." />
+	            				
+            				<h:panelGrid columns="2" cellspacing="10px">	            				        			
+		            			<p:commandButton action="#{clienteBean.salvar}" 
+		            			style="width:120px; margin-top:15px; margin-left: 5px;" 
+		            			value="Salvar" process="@form" update="@form :formTabela:tabelaClientes" />
+		            			
+		            			<p:commandButton action="#{clienteBean.limparForm}"
+		            			style="width:120px; margin-top:15px; margin-left:5px;"
+		            			value="Limpar" process="@this" update="@form"
+		            			 />          			
+            				</h:panelGrid>
+            			</p:fieldset>
+            		</h:form>
+            		
+            		<h:form id="formTabela" style="margin-top:10px;">
+            			<p:dataTable value="#{clienteBean.clientes}" var="cliente" id="tabelaClientes"
+            			paginator="true" rows="5">
+            			
+            			<f:facet name="header">Lista Clientes Cadastrados Loja</f:facet>
+            			
+            			<p:column headerText="Nome" sortBy="#{cliente.nome}"
+            			filterBy="#{cliente.nome}" filterMatchMode="startsWith">
+            				<h:outputText value="#{cliente.nome}" />
+            			</p:column>
+            			
+            			<p:column headerText="Cpf">
+            				<h:outputText value="#{cliente.cpf}" />
+            			</p:column>
+            			
+            			<p:column headerText="Alterar">
+            				<h:commandLink value="Alterar">
+            				<p:ajax process="@this" listener="#{clienteBean.carregar(cliente)}" update="@all" />
+            				</h:commandLink>
+            			</p:column>
+            			
+            			<p:column headerText="Remover">
+            				<h:commandLink value="Remover">
+	            				<p:ajax process="@this" listener="#{clienteBean.remover(cliente)}" update="@form"/>
+            				</h:commandLink>           				
+            			</p:column>
+            				            				
+            			</p:dataTable>            			
+            		</h:form>		
+            </ui:define>
+</ui:composition>

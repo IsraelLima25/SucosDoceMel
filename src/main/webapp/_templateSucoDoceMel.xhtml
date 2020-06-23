@@ -10,27 +10,26 @@
 		<p:layoutUnit visible="false" position="north" size="100" resizable="true" closable="false" collapsible="true">
 		</p:layoutUnit>
 
-		<p:layoutUnit position="south" size="100" header="SSDM" resizable="true" closable="false" collapsible="true">
-			<h:outputText value="V 1.0.0" style="text-align: center;" />
-		</p:layoutUnit>
+<!-- 		<p:layoutUnit position="south" size="100" header="SSDM" resizable="true" closable="false" collapsible="true"> -->
+<!-- 			<h:outputText value="V 1.0.0" style="text-align: center;" /> -->
+<!-- 		</p:layoutUnit> -->
 
-		<p:layoutUnit position="west" size="300px" header="Menu Principal" resizable="true" closable="false" collapsible="true">
+		<p:layoutUnit position="west" style="width:15px;" size="300px" header="Menu Principal" resizable="true" closable="false" collapsible="true">
 			<h:form>
 				<p:menu toggleable="true">
 					<p:submenu label="Clientes">
-						<p:menuitem value="Save" icon="pi pi-save" />
-						<p:menuitem value="Update" icon="pi pi-refresh" />
+						<p:menuitem value="Manutenção" />						
 					</p:submenu>
-					<p:submenu label="Consultoria">
-						<p:menuitem value="Delete" icon="pi pi-times" />
+					<p:submenu label="Vendedores">
+						<p:menuitem value="Manutenção" icon="pi pi-times" />
 					</p:submenu>
 					<p:submenu label="Notas Fiscais">
-						<p:menuitem value="External" url="http://www.primefaces.org" icon="pi pi-home" />
-						<p:menuitem value="Internal" icon="pi pi-star" />
+						<p:menuitem value="Manutenção" url="http://www.primefaces.org" icon="pi pi-home" />
+						<p:menuitem value="Emitir" icon="pi pi-star" />
 					</p:submenu>
 					<p:submenu label="Vendas">
-						<p:menuitem value="External" url="http://www.primefaces.org" icon="pi pi-home" />
-						<p:menuitem value="Internal" icon="pi pi-star" />
+						<p:menuitem value="Manutenção" url="http://www.primefaces.org" icon="pi pi-home" />
+						<p:menuitem value="Abrir Venda" icon="pi pi-star" />
 					</p:submenu>
 				</p:menu>
 			</h:form>

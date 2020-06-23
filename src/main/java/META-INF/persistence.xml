@@ -14,11 +14,10 @@
 		<class>br.com.suco.doce.mel.model.Produto</class>
 		<class>br.com.suco.doce.mel.model.Vendedor</class>
 
-
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"			
-			value="jdbc:mysql://localhost/sucos_vendas_test?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+			value="jdbc:mysql://localhost/sucos_vendas?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
 			
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.password" value="qwerty29" />

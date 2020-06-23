@@ -62,7 +62,7 @@ public class Cliente implements Serializable {
 	private Float volumeCompra;
 
 	@Column(name = "PRIMEIRA_COMPRA", length = 1)
-	private byte isPrimeiraCompra;
+	private byte primeiraCompra;
 
 	@OneToMany(mappedBy = "cliente")
 	List<NotaFiscal> notasFiscais = new ArrayList<>();
@@ -127,8 +127,8 @@ public class Cliente implements Serializable {
 		return Collections.unmodifiableList(notasFiscais);
 	}
 
-	public byte isPrimeiraCompra() {
-		return isPrimeiraCompra;
+	public byte getPrimeiraCompra() {
+		return primeiraCompra;
 	}
 
 	public void setNome(String nome) {
@@ -179,12 +179,49 @@ public class Cliente implements Serializable {
 		this.volumeCompra = volumeCompra;
 	}
 
-	public void setPrimeiraCompra(byte isPrimeiraCompra) {
-		this.isPrimeiraCompra = isPrimeiraCompra;
+	public void setPrimeiraCompra(byte primeiraCompra) {
+		this.primeiraCompra = primeiraCompra;
 	}
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Cliente [cpf=");
+		builder.append(cpf);
+		builder.append(", nome=");
+		builder.append(nome);
+		builder.append(", endereco1=");
+		builder.append(endereco1);
+		builder.append(", endereco2=");
+		builder.append(endereco2);
+		builder.append(", bairro=");
+		builder.append(bairro);
+		builder.append(", cidade=");
+		builder.append(cidade);
+		builder.append(", estado=");
+		builder.append(estado);
+		builder.append(", cep=");
+		builder.append(cep);
+		builder.append(", dataNascimento=");
+		builder.append(dataNascimento);
+		builder.append(", idade=");
+		builder.append(idade);
+		builder.append(", sexo=");
+		builder.append(sexo);
+		builder.append(", limiteCredito=");
+		builder.append(limiteCredito);
+		builder.append(", volumeCompra=");
+		builder.append(volumeCompra);
+		builder.append(", isPrimeiraCompra=");
+		builder.append(primeiraCompra);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
 
 }
