@@ -1,37 +1,41 @@
 package br.com.suco.doce.mel.bean;
 
+import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
+import br.com.suco.doce.mel.dao.ClienteDao;
 import br.com.suco.doce.mel.model.Cliente;
-import br.com.suco.doce.mel.repositoy.Repository;
+import br.com.suco.doce.mel.tx.Transactional;
 import br.com.suco.doce.mel.util.CepValidatorUtil;
 import br.com.suco.doce.mel.util.CpfValidatorUtil;
 
-@ManagedBean
+@Named
 @ViewScoped
-public class ClienteBean {
+public class ClienteBean implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Inject
+	private ClienteDao dao;
 
 	private Cliente cliente = new Cliente();
-	private Date dataNascimentoCliente;
 	private CpfValidatorUtil validatorCpf;
 	private CepValidatorUtil validatorCep;
 	private List<Cliente> clientes;
 
 	public void calcularIdade() {
-		Calendar cal = parseDateCalendar(dataNascimentoCliente);
-		int anoNascimento = cal.get(Calendar.YEAR);
+
+		int anoNascimento = this.cliente.getDataNascimento().get(Calendar.YEAR);
 
 		if (anoNascimentoValido(anoNascimento)) {
 			int idade = Calendar.getInstance().get(Calendar.YEAR) - anoNascimento;
-			this.cliente.setDataNascimento(cal);
 			this.cliente.setIdade(idade);
 		}
 	}
@@ -40,27 +44,20 @@ public class ClienteBean {
 		return String.valueOf(ano).length() == 4;
 	}
 
-	private Calendar parseDateCalendar(Date data) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(data);
-		return cal;
-	}
-
+	@Transactional
 	public void salvar() {
-		//this.cliente.setDataNascimento(parseDateCalendar(dataNascimentoCliente));
+
 		removeMaskFormatterFormAll();
 
-		Repository<Cliente> repository = new Repository<Cliente>(Cliente.class);
-
 		if (clienteExiste(this.cliente.getCpf())) {
-			repository.atualiza(this.cliente);
-			this.clientes = repository.listaTodos();
+			this.dao.atualiza(this.cliente);
+			this.clientes = this.dao.listaTodos();			
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Alterado"));
 		} else {
-			repository.adiciona(this.cliente);
+			this.dao.adiciona(this.cliente);
 			this.cliente = new Cliente();
-			this.clientes = repository.listaTodos();
+			this.clientes = this.dao.listaTodos();
 			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Cadastrado"));
 		}
@@ -68,18 +65,14 @@ public class ClienteBean {
 	}
 
 	public void carregar(Cliente cliente) {
-		GregorianCalendar gc = new GregorianCalendar();
-		gc.set(GregorianCalendar.YEAR, cliente.getDataNascimento().get(Calendar.YEAR));
-		gc.set(GregorianCalendar.MONTH, cliente.getDataNascimento().get(Calendar.MONTH));
-		gc.set(GregorianCalendar.DAY_OF_MONTH, cliente.getDataNascimento().get(Calendar.DAY_OF_MONTH) + 1);
-
-		this.dataNascimentoCliente = gc.getTime();
-		this.cliente = cliente;
+		this.cliente = this.dao.buscaPorCpf(cliente.getCpf());		
+		this.cliente.getDataNascimento().set(this.cliente.getDataNascimento().get(Calendar.YEAR),
+											 this.cliente.getDataNascimento().get(Calendar.MONTH),
+											 this.cliente.getDataNascimento().get(Calendar.DAY_OF_MONTH) + 1);
 	}
 
 	private boolean clienteExiste(String cpf) {
-		Repository<Cliente> repository = new Repository<>(Cliente.class);
-		Cliente cliente = repository.buscaPorCpf(cpf);
+		Cliente cliente = this.dao.buscaPorCpf(cpf);
 		if (cliente != null) {
 			return true;
 		} else {
@@ -104,10 +97,10 @@ public class ClienteBean {
 		removeMaskCpfCliente();
 	}
 
+	@Transactional
 	public void remover(Cliente cliente) {
-		Repository<Cliente> repository = new Repository<Cliente>(Cliente.class);
-		repository.remove(cliente);
-		this.clientes = repository.listaTodos();
+		this.dao.remove(cliente);
+		this.clientes = this.dao.listaTodos();
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Removido"));
 	}
@@ -138,19 +131,10 @@ public class ClienteBean {
 		this.cliente = cliente;
 	}
 
-	public Date getDataNascimentoCliente() {
-		return dataNascimentoCliente;
-	}
-
-	public void setDataNascimentoCliente(Date dataNascimentoCliente) {
-		this.dataNascimentoCliente = dataNascimentoCliente;
-	}
-
 	public List<Cliente> getClientes() {
-		Repository<Cliente> repository = new Repository<Cliente>(Cliente.class);
 
 		if (this.clientes == null) {
-			this.clientes = repository.listaTodos();
+			this.clientes = dao.listaTodos();
 		}
 
 		return clientes;

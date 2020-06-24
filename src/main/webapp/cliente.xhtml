@@ -9,7 +9,7 @@
                 
             <ui:define name="conteudo">
             
-            		<h:form>            		            		
+            		<h:form id="formCliente">            		            		
 					    <p:growl id="msgGlobal" showDetail="true" showSummary="false" sticky="false" closable="true" />					
             			<p:fieldset legend = "Manutenção de Clientes">
             			<p:separator />
@@ -51,7 +51,7 @@
             					<h:outputLabel value="Cidade:*" for="cidade" />             				
             					<h:outputLabel value="Bairro:*" for="bairro" />
             					<h:outputLabel value="Cep:*" for="cep" />  
-            					<h:outputLabel value="Data Nascimento:*" for="dataNascimento" />
+            					<h:outputLabel value="Data Nascimento:*" for="nascimentoData" />
             					<h:outputLabel value="Idade:" for="idade" />
             					
             					<p:selectOneMenu required="true" requiredMessage="Selecione um estado" id="estado" value="#{clienteBean.cliente.estado}" style="width:200px">
@@ -107,16 +107,14 @@
             					maxlength="8" 
             					mask="99999-999">
             					<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
-            					</p:inputMask>
+            					</p:inputMask>  
             					
-            					<p:calendar id="dataNascimento" required="true" requiredMessage="Data Nascimento Obrigatório"
-            					validatorMessage="Campo Data Nascimento Formato inválido" pattern="dd/MM/yyyy"
-            					value="#{clienteBean.dataNascimentoCliente}" 
-            					timeZone="America/Sao_Paulo" mask="true">
+            					<p:calendar id="nascimentoData" value="#{clienteBean.cliente.dataNascimento.time}"            						 
+            					pattern="dd-MM-yyyy" mask="true">  
+            						<p:ajax event="blur" process="@this" update="idade" listener="#{clienteBean.calcularIdade}" />
             						<p:ajax event="dateSelect" process="@this" update="idade" listener="#{clienteBean.calcularIdade}" />
-            						<p:ajax event="keyup" process="@this" update="idade" listener="#{clienteBean.calcularIdade}" />
-            						<p:ajax event="blur" process="@this" update="dataNascimento msgGlobal" />
-            					</p:calendar>
+            						
+            					</p:calendar>      					
             					
             					<p:inputText id="idade" value="#{clienteBean.cliente.idade}" disabled="true" style="width:200px;"  />
             					          				
@@ -194,13 +192,13 @@
             			
             			<p:column headerText="Alterar">
             				<h:commandLink value="Alterar">
-            				<p:ajax process="@this" listener="#{clienteBean.carregar(cliente)}" update="@all" />
+            				<p:ajax process="@this" listener="#{clienteBean.carregar(cliente)}" update="formCliente" />
             				</h:commandLink>
             			</p:column>
             			
             			<p:column headerText="Remover">
             				<h:commandLink value="Remover">
-	            				<p:ajax process="@this" listener="#{clienteBean.remover(cliente)}" update="@form"/>
+	            				<p:ajax process="@this" listener="#{clienteBean.remover(cliente)}" update="@all"/>
             				</h:commandLink>           				
             			</p:column>
             				            				

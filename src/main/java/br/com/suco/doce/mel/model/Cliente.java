@@ -47,7 +47,7 @@ public class Cliente implements Serializable {
 
 	@Column(name = "DATA_DE_NASCIMENTO")
 	@Temporal(TemporalType.DATE)
-	private Calendar dataNascimento;
+	private Calendar dataNascimento = Calendar.getInstance();
 
 	@Column(name = "IDADE", length = 6)
 	private Integer idade;
@@ -221,7 +221,5 @@ public class Cliente implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
 
 }
