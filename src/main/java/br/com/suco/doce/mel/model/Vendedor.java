@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "tabela_de_vendedores")
@@ -29,10 +31,11 @@ public class Vendedor implements Serializable {
 	private Float percentualComissao;
 
 	@Column(name = "DATA_ADMISSAO")
-	private Calendar dataAdmissao;
+	@Temporal(TemporalType.DATE)
+	private Calendar dataAdmissao = Calendar.getInstance();
 
 	@Column(name = "DE_FERIAS")
-	private byte isFerias;
+	private Byte isFerias;
 
 	@Column(name = "BAIRRO", length = 50)
 	private String bairro;
@@ -60,7 +63,7 @@ public class Vendedor implements Serializable {
 		return dataAdmissao;
 	}
 
-	public byte isFerias() {
+	public Byte getIsFerias() {
 		return isFerias;
 	}
 
@@ -88,7 +91,7 @@ public class Vendedor implements Serializable {
 		this.dataAdmissao = dataAdmissao;
 	}
 
-	public void setFerias(byte isFerias) {
+	public void setIsFerias(Byte isFerias) {
 		this.isFerias = isFerias;
 	}
 

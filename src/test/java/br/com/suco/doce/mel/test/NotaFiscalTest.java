@@ -56,7 +56,7 @@ public class NotaFiscalTest {
 		Calendar dataAdmissao = Calendar.getInstance();
 		dataAdmissao.set(2000, Calendar.JULY, 20);
 		this.vendedor.setDataAdmissao(dataAdmissao);
-		this.vendedor.setFerias(Byte.parseByte("0"));
+		this.vendedor.setIsFerias(Byte.valueOf("0"));
 		this.vendedor.setMatricula("1526");
 		this.vendedor.setNome("Silvanei Moreira da Costa");
 		this.vendedor.setPercentualComissao(10f);

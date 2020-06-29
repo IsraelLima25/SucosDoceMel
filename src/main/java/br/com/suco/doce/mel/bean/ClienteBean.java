@@ -24,6 +24,9 @@ public class ClienteBean implements Serializable {
 
 	@Inject
 	private ClienteDao dao;
+	
+	@Inject
+	private FacesContext context;
 
 	private Cliente cliente = new Cliente();
 	private CpfValidatorUtil validatorCpf;
@@ -51,14 +54,12 @@ public class ClienteBean implements Serializable {
 
 		if (clienteExiste(this.cliente.getCpf())) {
 			this.dao.atualiza(this.cliente);
-			this.clientes = this.dao.listaTodos();			
-			FacesContext context = FacesContext.getCurrentInstance();
+			this.clientes = this.dao.listaTodos();		
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Alterado"));
 		} else {
 			this.dao.adiciona(this.cliente);
 			this.cliente = new Cliente();
 			this.clientes = this.dao.listaTodos();
-			FacesContext context = FacesContext.getCurrentInstance();
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Cadastrado"));
 		}
 
@@ -101,7 +102,6 @@ public class ClienteBean implements Serializable {
 	public void remover(Cliente cliente) {
 		this.dao.remove(cliente);
 		this.clientes = this.dao.listaTodos();
-		FacesContext context = FacesContext.getCurrentInstance();
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Removido"));
 	}
 

@@ -6,5 +6,119 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:ui="http://java.sun.com/jsf/facelets">
                 
-            <ui:define name="conteudo">as</ui:define>
+      <ui:define name="conteudo">
+            <h:form id="formVendedor">
+            	<p:growl id="msgGlobal" showDetail="true" showSummary="false" sticky="false" closable="true" />
+            	<p:fieldset legend = "Manutenção de Vendedores">
+            		<p:separator />
+            		<h:panelGrid columns="3" cellspacing="1" cellpadding="5">
+            		
+            			<h:outputLabel for="matricula" value="Matrícula*" />
+            			<h:outputLabel for="nome" value="Nome*" />
+            			<h:outputLabel for="percentualComissao" value="Percentual Comissão*" />
+            			
+            			<p:inputMask id="matricula" mask="99999" maxlength="5"
+            				required="true" requiredMessage="Campo Matricula obrigatório" 
+            				value="#{vendedorBean.vendedor.matricula}">
+            					<f:ajax event="blur" render="@this msgGlobal" execute="@this" />            				
+            			</p:inputMask>
+            			<p:inputText id="nome" required="true" style="width:400px;"
+            				requiredMessage="Campo nome obrigatório" 
+            				validatorMessage="Formato campo Nome inválido" 
+            				value="#{vendedorBean.vendedor.nome}">
+            				<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            				<f:validateRegex pattern="[A-Za-zÀ-ú ]*" />           						
+            			</p:inputText>
+            			<p:inputText id="percentualComissao" decimalPlaces="2" 
+            			required="true" requiredMessage="Campo Percentual de Comissão obrigatório"
+            			value="#{vendedorBean.vendedor.percentualComissao}">
+            			<f:ajax event="blur" render="@this msgGlobal" execute="@this" />
+            			<f:convertNumber minFractionDigits="2" />
+            			</p:inputText>
+            			
+            		    <h:outputLabel for="dataAdmissao" value="Data Admissão*" />
+            			<h:outputLabel for="estaDeFerias" value="Está de Férias*" />
+            			<h:outputLabel for="bairro" value="Bairro*" />
+            			            			
+            		     <p:calendar id="dataAdmissao" required="true"            		     	
+            		        value="#{vendedorBean.vendedor.dataAdmissao.time}"            						 
+            				pattern="dd-MM-yyyy" mask="true">
+            				<f:ajax event="blur" execute="@this" render="@this msgGlobal" />			           
+            			</p:calendar>      					
+            					            		    
+            			<p:selectOneMenu id="estaDeFerias" required="true"
+            				requiredMessage="Está de Férias Obrigatório"
+            				value="#{vendedorBean.vendedor.isFerias}" style="width:400px">            					
+						          <f:selectItem itemLabel="" itemValue="" />
+						          <f:selectItem itemLabel="Não" itemValue="0" />
+						          <f:selectItem itemLabel="Sim" itemValue="1" />
+        				</p:selectOneMenu> 
+            			
+            			<p:inputText id="bairro" required="true" 
+            				requiredMessage="Bairro Obrigatório" 
+            				value="#{vendedorBean.vendedor.bairro}">
+            				<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            				<f:validateRegex pattern="[A-Za-zÀ-ú ]*" /> 
+            			</p:inputText>           			
+            		</h:panelGrid>
+            		
+            		<h:outputLabel style="color:red; font-size:15px; margin-left:5px; margin-top:10px;" 
+	            			value="Os campos marcados com (*) são de preenchimento obrigatório." />
+	            			
+	            	<h:panelGrid columns="2" cellspacing="10px">
+	            		            				        			
+						<p:commandButton action="#{vendedorBean.salvar}"
+		            	style="width:120px; margin-top:15px; margin-left: 5px;" 
+		            	value="Salvar" process="@form" update="msgGlobal formTabela" />
+		            			
+		            	<p:commandButton 
+		            	style="width:120px; margin-top:15px; margin-left:5px;"
+		            	value="Limpar" process="" update=""/>
+		            	          			
+            		</h:panelGrid>
+	            			
+            	</p:fieldset>
+           	</h:form>
+           	
+           	<h:form id="formTabela" style="margin-top:10px;">
+            			<p:dataTable value="#{vendedorBean.vendedores}" var="vendedor" id="tabelaVendedores"
+            			paginator="true" rows="5">
+            			
+            			<f:facet name="header">Lista Vendedores Cadastrados Loja</f:facet>
+            			
+            			<p:column headerText="Nome" sortBy="#{vendedor.nome}"
+            			filterBy="#{vendedor.nome}" filterMatchMode="startsWith">
+            				<h:outputText value="#{vendedor.nome}" />
+            			</p:column>
+            			
+            			<p:column headerText="Matricula">
+            				<h:outputText value="#{vendedor.matricula}" />
+            			</p:column>
+            			
+            			<p:column headerText="Data Admissão">
+            				<h:outputText value="#{vendedor.dataAdmissao.time}">
+            					<f:convertDateTime pattern="dd/MM/yyyy" />
+            				</h:outputText>
+            			</p:column>
+            			
+            			<p:column headerText="Bairro">
+            				<h:outputText value="#{vendedor.bairro}" />
+            			</p:column>
+            			
+            			<p:column headerText="Alterar">
+            				<h:commandLink value="Alterar">
+            				<p:ajax process="@this" listener="#{vendedorBean.carregar(vendedor)}" update="formVendedor" />
+            				</h:commandLink>
+            			</p:column>
+            			
+            			<p:column headerText="Remover">
+            				<h:commandLink value="Remover">
+	            				<p:ajax process="@this" listener="#{vendedorBean.remover(vendedor)}" update="@all"/>
+            				</h:commandLink>           				
+            			</p:column>
+<!--             			    <f:convertNumber pattern="#,##0.00" -->
+<!--          locale="#{usuarioLogadoBean.locale}" /> -->            				            				
+            			</p:dataTable>            			
+            </h:form>		
+         </ui:define>
 </ui:composition>

@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import br.com.suco.doce.mel.model.Cliente;
-import br.com.suco.doce.mel.tx.Transactional;
 
 public class ClienteDao implements Serializable {
 
@@ -36,12 +35,13 @@ public class ClienteDao implements Serializable {
 		this.dao.remove(cliente);
 	}
 
-	public Cliente buscaPorCpf(String cpf) {
-		return this.dao.buscaPorCpf(cpf);
-	}
-
 	public List<Cliente> listaTodos() {
 		return this.dao.listaTodos();
+	}
+	
+	public Cliente buscaPorCpf(String cpf) {
+		Cliente instancia = this.em.find(Cliente.class, cpf);
+		return instancia;
 	}
 
 }

@@ -62,7 +62,7 @@ public class Cliente implements Serializable {
 	private Float volumeCompra;
 
 	@Column(name = "PRIMEIRA_COMPRA", length = 1)
-	private byte primeiraCompra;
+	private Byte primeiraCompra;
 
 	@OneToMany(mappedBy = "cliente")
 	List<NotaFiscal> notasFiscais = new ArrayList<>();
@@ -127,7 +127,7 @@ public class Cliente implements Serializable {
 		return Collections.unmodifiableList(notasFiscais);
 	}
 
-	public byte getPrimeiraCompra() {
+	public Byte getPrimeiraCompra() {
 		return primeiraCompra;
 	}
 
@@ -179,7 +179,7 @@ public class Cliente implements Serializable {
 		this.volumeCompra = volumeCompra;
 	}
 
-	public void setPrimeiraCompra(byte primeiraCompra) {
+	public void setPrimeiraCompra(Byte primeiraCompra) {
 		this.primeiraCompra = primeiraCompra;
 	}
 

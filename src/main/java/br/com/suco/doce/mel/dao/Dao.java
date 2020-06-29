@@ -43,11 +43,6 @@ public class Dao<T> implements Serializable {
 		return instancia;
 	}
 
-	public T buscaPorCpf(String cpf) {
-		T instancia = this.em.find(classe, cpf);
-		return instancia;
-	}
-
 	public List<T> listaTodosPaginada(int firstResult, int maxResults) {
 		CriteriaQuery<T> query = this.em.getCriteriaBuilder().createQuery(classe);
 		query.select(query.from(classe));
