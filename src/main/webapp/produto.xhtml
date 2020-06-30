@@ -1,0 +1,129 @@
+<ui:composition
+			   	template="_templateSucoDoceMel.xhtml"
+			    xmlns=" http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:stella="http://stella.caelum.com.br/faces2">
+                
+            <ui:define name="conteudo">
+            	<h:form id="formProduto">
+        				<p:growl id="msgGlobal" showDetail="true" showSummary="false" sticky="false" closable="true" />					
+            			<p:fieldset legend = "Manutenção de Produtos">
+            			<p:separator />
+	            			<h:panelGrid columns="3" cellspacing="1" cellpadding="5" >
+	            			
+	            				<h:outputLabel value="Codigo Produto:*" for="codigoProduto" />
+            					<h:outputLabel value="Nome:*" for="nome" />        
+            					<h:outputLabel value="Embalagem:*" for="embalagem" />
+            					
+            					<p:inputMask id="codigoProduto" style="width:215px;"
+            					required="true" requiredMessage="Campo Codigo Produto obrigatório"
+            					value="#{produtoBean.produto.codigoProduto}" 
+            					maxlength="10" mask="9999999999">
+            						<f:ajax event="blur" render="@this msgGlobal" execute="@this" />
+            					</p:inputMask>
+            					
+            					<p:inputText id="nome" required="true" 
+            					requiredMessage="Campo nome obrigatório" 
+            					validatorMessage="Formato campo Nome inválido" 
+            					value="#{produtoBean.produto.nomeProduto}" style="width:570px;">
+            						<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            						<f:validateRegex pattern="[A-Za-zÀ-ú ]*"></f:validateRegex>            						
+            					</p:inputText>
+            					
+            					<p:selectOneMenu required="true" requiredMessage="Selecione uma embalagem" id="embalagem" 
+            						value="#{produtoBean.produto.embalagem}" style="width:200px">
+						            <f:selectItem itemLabel="" itemValue="" />
+						            <f:selectItem itemLabel="Garrafa" itemValue="garrafa"/>
+						            <f:selectItem itemLabel="Lata" itemValue="lata"/>
+						            <f:selectItem itemLabel="Pet" itemValue="pet"/>
+						        </p:selectOneMenu>  
+						        
+						        <h:outputLabel value="Tamanho:*" for="tamanho" />
+            					<h:outputLabel value="Sabor:*" for="sabor" />        
+            					<h:outputLabel value="Preço:*" for="preco" />  
+            					
+            					<p:inputText id="tamanho" required="true" 
+            					requiredMessage="Campo Tamanho obrigatório" 
+            					validatorMessage="Formato campo Tamanho inválido" 
+            					value="#{produtoBean.produto.tamanho}">
+            						<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            					</p:inputText>
+            					
+            					<p:inputText id="sabor" required="true" style="width:570px;" 
+            					requiredMessage="Campo Sabor obrigatório" 
+            					validatorMessage="Formato campo Sabor inválido" 
+            					value="#{produtoBean.produto.sabor}">
+            						<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            						<f:validateRegex pattern="[A-Za-zÀ-ú ]*"></f:validateRegex>            						
+            					</p:inputText>
+            					
+            					<p:inputText id="preco"  
+            					decimalPlaces="2" symbol="R$" required="true" 
+            					requiredMessage="Campo Preço Obrigatório" 
+            					value="#{produtoBean.produto.precoLista}">
+            					<f:ajax event="blur" execute="@this" render="@this msgGlobal" />
+            					 <f:convertNumber minFractionDigits="2"/>
+            					</p:inputText>
+	            			</h:panelGrid>
+	            			
+	            			<h:panelGrid columns="2" cellspacing="10px">
+	            				            				        			
+		            			<p:commandButton action="#{produtoBean.salvar}" 
+		            			style="width:120px; margin-top:15px; margin-left: 5px;" 
+		            			value="Salvar" process="@form" update="msgGlobal formTabela" />
+		            			
+		            			<p:commandButton action="#{clienteBean.limparForm}"
+		            			style="width:120px; margin-top:15px; margin-left:5px;"
+		            			value="Limpar" process="@this" update="@form"
+		            			 />
+		            			           			
+            				</h:panelGrid>
+            			</p:fieldset>
+            	</h:form> 
+            	
+            	<h:form id="formTabela" style="margin-top:10px;">
+            			<p:dataTable value="#{produtoBean.produtos}" var="produto" id="tabelaProdutos"
+            			paginator="true" rows="5">
+            			
+            			<f:facet name="header">Lista Produtos Cadastrados Loja</f:facet>
+            			
+            			<p:column headerText="Nome" sortBy="#{produto.nomeProduto}"
+            			filterBy="#{produto.nomeProduto}" filterMatchMode="startsWith">
+            				<h:outputText value="#{produto.nomeProduto}" />
+            			</p:column>
+            			
+            			<p:column headerText="Código Produto">
+            				<h:outputText value="#{produto.codigoProduto}" />
+            			</p:column>
+            			
+            			<p:column headerText="Sabor">
+            				<h:outputText value="#{produto.sabor}" />
+            			</p:column>            			
+            			
+            			<p:column headerText="Preço">
+            				<h:outputText value="#{produto.precoLista}">
+            					<f:convertNumber minFractionDigits="2" />
+            				</h:outputText>
+            			</p:column>
+            			
+            			<p:column headerText="Alterar">
+            				<h:commandLink value="Alterar">
+            				<p:ajax process="@this" listener="#{produtoBean.carregar(produto)}" update="formProduto" />
+            				</h:commandLink>
+            			</p:column>
+            			
+            			<p:column headerText="Remover">
+            				<h:commandLink value="Remover">
+	            				<p:ajax process="@this" listener="#{produtoBean.remover(produto)}" update="@all"/>
+            				</h:commandLink>           				
+            			</p:column>
+<!--             			    <f:convertNumber pattern="#,##0.00" -->
+<!--          locale="#{usuarioLogadoBean.locale}" /> -->            				            				
+            			</p:dataTable>            			
+            </h:form>		           	
+            </ui:define>
+</ui:composition>            
+            

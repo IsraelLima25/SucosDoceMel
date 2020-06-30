@@ -71,9 +71,9 @@
 		            	style="width:120px; margin-top:15px; margin-left: 5px;" 
 		            	value="Salvar" process="@form" update="msgGlobal formTabela" />
 		            			
-		            	<p:commandButton 
+		            	<p:commandButton action="#{vendedorBean.limparForm}"
 		            	style="width:120px; margin-top:15px; margin-left:5px;"
-		            	value="Limpar" process="" update=""/>
+		            	value="Limpar" process="@this" update="@form"/>
 		            	          			
             		</h:panelGrid>
 	            			

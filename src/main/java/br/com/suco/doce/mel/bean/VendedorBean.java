@@ -58,8 +58,8 @@ public class VendedorBean implements Serializable {
 	public void carregar(Vendedor vendedor) {
 		this.vendedor = this.dao.buscaPorMatricula(vendedor.getMatricula());
 		this.vendedor.getDataAdmissao().set(this.vendedor.getDataAdmissao().get(Calendar.YEAR),
-				 this.vendedor.getDataAdmissao().get(Calendar.MONTH),
-				 this.vendedor.getDataAdmissao().get(Calendar.DAY_OF_MONTH) + 1);
+				this.vendedor.getDataAdmissao().get(Calendar.MONTH),
+				this.vendedor.getDataAdmissao().get(Calendar.DAY_OF_MONTH) + 1);
 	}
 
 	@Transactional
@@ -67,6 +67,15 @@ public class VendedorBean implements Serializable {
 		this.dao.remove(vendedor);
 		this.vendedores = this.dao.listaTodos();
 		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Vendedor Removido"));
+	}
+
+	public void limparForm() {
+		this.vendedor.setMatricula("");
+		this.vendedor.setNome("");
+		this.vendedor.setPercentualComissao(0f);
+		this.vendedor.setDataAdmissao(null);
+		this.vendedor.setIsFerias(Byte.parseByte("0"));
+		this.vendedor.setBairro("");
 	}
 
 	/* Get And Set */
