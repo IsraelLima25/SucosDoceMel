@@ -22,7 +22,7 @@
             					<p:inputMask id="cpf" style="width:215px;"
             					value="#{clienteBean.cliente.cpf}" 
             					maxlength="11" mask="999.999.999-99">
-            						<f:validator validatorId="ValidatorCpf" /> 
+            						<f:validator binding="#{br.com.suco.doce.mel.cpf_validation}" /> 
             						<f:ajax event="blur" render="@this msgGlobal" execute="@this" />
             					</p:inputMask>
             					           					

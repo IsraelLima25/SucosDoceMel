@@ -3,13 +3,12 @@ package br.com.suco.doce.mel.bean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.suco.doce.mel.dao.ProdutoDao;
+import br.com.suco.doce.mel.message.MessageHelper;
 import br.com.suco.doce.mel.model.Produto;
 import br.com.suco.doce.mel.tx.Transactional;
 
@@ -23,8 +22,9 @@ public class ProdutoBean implements Serializable {
 
 	@Inject
 	private ProdutoDao dao;
+
 	@Inject
-	private FacesContext context;
+	private MessageHelper helperMessage;
 
 	private List<Produto> produtos;
 
@@ -34,12 +34,12 @@ public class ProdutoBean implements Serializable {
 		if (produtoExiste(this.produto.getCodigoProduto())) {
 			this.dao.atualiza(this.produto);
 			this.produtos = this.dao.listaTodos();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Produto Alterado"));
+			helperMessage.sendClientMessageInfo("Produto Alterado");
 		} else {
 			this.dao.adiciona(this.produto);
 			this.produto = new Produto();
 			this.produtos = this.dao.listaTodos();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Produto Cadastrado"));
+			helperMessage.sendClientMessageInfo("Produto Cadastrado");
 			this.produto = new Produto();
 		}
 
@@ -53,18 +53,18 @@ public class ProdutoBean implements Serializable {
 			return false;
 		}
 	}
-	
+
 	public void carregar(Produto produto) {
 		this.produto = this.dao.buscaPorCodigoProduto(produto.getCodigoProduto());
 	}
-	
+
 	@Transactional
 	public void remover(Produto produto) {
 		this.dao.remove(produto);
 		this.produtos = this.dao.listaTodos();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Produto Removido"));
+		helperMessage.sendClientMessageInfo("Produto Removido");
 	}
-	
+
 	public void limparForm() {
 		this.produto.setCodigoProduto("");
 		this.produto.setNomeProduto("");

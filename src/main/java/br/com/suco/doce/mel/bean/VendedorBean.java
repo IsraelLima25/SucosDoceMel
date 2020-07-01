@@ -5,12 +5,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.suco.doce.mel.dao.VendedorDao;
+import br.com.suco.doce.mel.message.MessageHelper;
 import br.com.suco.doce.mel.model.Vendedor;
 import br.com.suco.doce.mel.tx.Transactional;
 
@@ -24,7 +24,7 @@ public class VendedorBean implements Serializable {
 	private VendedorDao dao;
 
 	@Inject
-	private FacesContext context;
+	private MessageHelper helperMessage;
 
 	private Vendedor vendedor = new Vendedor();
 	private List<Vendedor> vendedores;
@@ -35,12 +35,12 @@ public class VendedorBean implements Serializable {
 		if (vendedorExiste(this.vendedor.getMatricula())) {
 			this.dao.atualiza(this.vendedor);
 			this.vendedores = this.dao.listaTodos();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Vendedor Alterado"));
+			helperMessage.sendClientMessageInfo("Vendedor Alterado");
 		} else {
 			this.dao.adiciona(this.vendedor);
 			this.vendedor = new Vendedor();
 			this.vendedores = this.dao.listaTodos();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Vendedor Cadastrado"));
+			helperMessage.sendClientMessageInfo("Vendedor Cadastrado");
 			this.vendedor = new Vendedor();
 		}
 
@@ -66,7 +66,7 @@ public class VendedorBean implements Serializable {
 	public void remover(Vendedor vendedor) {
 		this.dao.remove(vendedor);
 		this.vendedores = this.dao.listaTodos();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Vendedor Removido"));
+		helperMessage.sendClientMessageInfo("Vendedor Removido");
 	}
 
 	public void limparForm() {

@@ -5,12 +5,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.suco.doce.mel.dao.ClienteDao;
+import br.com.suco.doce.mel.message.MessageHelper;
 import br.com.suco.doce.mel.model.Cliente;
 import br.com.suco.doce.mel.tx.Transactional;
 import br.com.suco.doce.mel.util.CepValidatorUtil;
@@ -26,7 +26,7 @@ public class ClienteBean implements Serializable {
 	private ClienteDao dao;
 	
 	@Inject
-	private FacesContext context;
+	private MessageHelper helperMesssage;
 
 	private Cliente cliente = new Cliente();
 	private CpfValidatorUtil validatorCpf;
@@ -54,13 +54,14 @@ public class ClienteBean implements Serializable {
 
 		if (clienteExiste(this.cliente.getCpf())) {
 			this.dao.atualiza(this.cliente);
-			this.clientes = this.dao.listaTodos();		
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Alterado"));
+			this.clientes = this.dao.listaTodos();	
+			helperMesssage.sendClientMessageInfo("Cliente Alterado");
 		} else {
 			this.dao.adiciona(this.cliente);
 			this.cliente = new Cliente();
 			this.clientes = this.dao.listaTodos();
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Cadastrado"));
+			helperMesssage.sendClientMessageInfo("Cliente Cadastrado");
+
 		}
 
 	}
@@ -102,7 +103,7 @@ public class ClienteBean implements Serializable {
 	public void remover(Cliente cliente) {
 		this.dao.remove(cliente);
 		this.clientes = this.dao.listaTodos();
-		context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Cliente Removido"));
+		helperMesssage.sendClientMessageInfo("Cliente Removido");
 	}
 
 	public void limparForm() {
